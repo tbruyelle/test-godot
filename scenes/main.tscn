@@ -86,10 +86,11 @@ material = SubResource("StandardMaterial3D_scanner")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.16)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkout/Scanner/ScannerArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00023919344, 0.0008163452, 0.00059497356)
 shape = SubResource("BoxShape3D_scanner")
 
 [node name="DetectionZone" type="MeshInstance3D" parent="Checkout/Scanner/ScannerArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.078759074, -0.104694724, -0.13414574)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.015365355, -0.1477195, -0.120960474)
 mesh = SubResource("BoxMesh_detection")
 surface_material_override/0 = SubResource("StandardMaterial3D_detection")
 
