@@ -6,14 +6,14 @@ Jeu 3D Godot 4.5 où le joueur incarne un caissier de supermarché. Il ne peut p
 
 ```
 scenes/
-├── main.tscn              # Scène principale (caisse, tapis, scanner, UI)
+├── main.tscn              # Scène principale (caisse, tapis, scanner, UI, environnement)
 └── items/
     └── grocery_item.tscn  # Article scannable (RigidBody3D)
 
 scripts/
-├── game_manager.gd        # Logique du jeu (spawn, grab, scan)
+├── game_manager.gd        # Logique du jeu (spawn, grab, scan, vitesse tapis)
 ├── player.gd              # Caméra première personne (rotation souris)
-├── grocery_item.gd        # Comportement des articles + détection tapis
+├── grocery_item.gd        # Comportement des articles + détection tapis + effet scanné
 └── beep_generator.gd      # Génération procédurale du son de bip
 ```
 
@@ -22,14 +22,20 @@ scripts/
 - **Position joueur** : z=-1.6, face au comptoir (z=-0.8)
 - **Tapis roulant** : x=-1.5, articles avancent de gauche à droite (x+)
 - **Scanner** : Sur le comptoir, zone de détection verte, laser rouge
+- **Bac de réception** : Creusé dans le comptoir avec pente descendante vers le panier
+- **Panier de course** : Reçoit les articles scannés en bas de la pente
 
 ## Contrôles
 
 - **Souris** : Regarder autour
-- **Clic gauche** : Prendre/lâcher un objet
+- **Clic gauche** : Prendre/lâcher un objet (les objets sont projetés vers l'avant au lâcher)
 - **Q/E/R** : Tourner l'objet (axes X/Y/Z)
 - **Molette** : Tourner l'objet (axe X)
 - **Échap** : Libérer/capturer la souris
+- **Boutons sur comptoir** : Contrôler la vitesse du tapis
+  - Vert : Diminuer la vitesse
+  - Rouge : Augmenter la vitesse
+  - Violet : Vitesse maximale (death mode)
 
 ## Points techniques importants
 
@@ -41,8 +47,22 @@ scripts/
    - Distance à la zone scanner <= 0.25
    - Code-barre doit faire face au scanner (dot product > 0.3)
    - Son de bip généré programmatiquement (1000Hz, 0.15s)
+   - Halo vert pulsant sur les articles scannés
 
 4. **CSGBox3D** : `use_collision = true` nécessaire pour les collisions physiques
+
+5. **Vitesse du tapis** : Configurable via boutons (min: 0.3, max: 2.0), stockée dans `game_manager.gd` et accessible via `get_parent().conveyor_speed`
+
+6. **Spawn des articles** : Position fixe avec rotation aléatoire initiale sur les 3 axes
+
+7. **Projection des objets** : Les objets sont projetés dans la direction de la caméra au lâcher (`THROW_FORCE = 3.0`)
+
+## Environnement
+
+- **Pièce fermée** : 4 murs (10x10m), plafond à 3m
+- **Éclairage** : 2 OmniLight3D au plafond
+- **Porte coulissante** : Mur Est, 2 panneaux vitrés
+- **Comptoir** : Avec bac creusé (CSGCombiner3D + soustraction) et pente
 
 ## Éléments visuels
 
@@ -50,6 +70,8 @@ scripts/
 - Zone de détection : cube vert semi-transparent
 - Laser : ligne rouge sur le scanner
 - Code-barre : partie blanche sur les articles
+- Halo pulsant : vert semi-transparent sur articles scannés
+- Panier de course : bleu, en bas de la pente
 
 ## À faire (idées futures)
 
