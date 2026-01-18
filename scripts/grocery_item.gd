@@ -40,4 +40,4 @@ func _is_on_conveyor() -> bool:
 func _physics_process(_delta: float) -> void:
 	# Mouvement sur le tapis roulant uniquement si l'objet est dessus
 	if _is_on_conveyor() and not freeze:
-		linear_velocity.x = 0.3
+		linear_velocity.x = get_parent().conveyor_speed

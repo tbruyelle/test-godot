@@ -2,8 +2,8 @@ extends Node3D
 
 signal item_scanned(item_name: String, price: float)
 
-@export var spawn_interval: float = 5.0
-@export var conveyor_speed: float = 0.5
+@export var spawn_interval: float = 3.0
+@export var conveyor_speed: float = 0.6
 
 @onready var camera: Camera3D = $Player/Camera3D
 @onready var held_item_position: Node3D = $Player/Camera3D/HeldItem
