@@ -9,6 +9,9 @@ const CONVEYOR_SPEED_MIN: float = 0.3
 const CONVEYOR_SPEED_MAX: float = 2.0
 const CONVEYOR_SPEED_CHANGE: float = 0.2
 
+const BASE_CONVEYOR_SPEED: float = 0.6
+const BASE_SPAWN_INTERVAL: float = 3.0
+
 # Définition des produits variés (basés sur les étagères)
 const PRODUCT_COLORS: Array = [
 	Color(0.9, 0.2, 0.15, 1),   # Rouge
@@ -116,7 +119,9 @@ func press_speed_button(button: Node) -> void:
 	if button.has_meta("speed_change"):
 		var change = button.get_meta("speed_change")
 		conveyor_speed = clamp(conveyor_speed + CONVEYOR_SPEED_CHANGE * change, CONVEYOR_SPEED_MIN, CONVEYOR_SPEED_MAX)
-		print("Vitesse du tapis: %.1f" % conveyor_speed)
+		# Ajuster l'intervalle de spawn proportionnellement à la vitesse
+		spawn_interval = BASE_SPAWN_INTERVAL * (BASE_CONVEYOR_SPEED / conveyor_speed)
+		print("Vitesse du tapis: %.1f - Intervalle spawn: %.1fs" % [conveyor_speed, spawn_interval])
 
 const THROW_FORCE: float = 3.0
 
