@@ -24,6 +24,7 @@ scripts/
 - **Scanner** : Sur le comptoir, zone de détection verte, laser rouge
 - **Bac de réception** : Creusé dans le comptoir avec pente descendante vers le panier
 - **Panier de course** : Reçoit les articles scannés en bas de la pente
+- **Rayons supermarché** : 3 allées de 12m avec étagères double-face et produits variés
 
 ## Contrôles
 
@@ -51,18 +52,19 @@ scripts/
 
 4. **CSGBox3D** : `use_collision = true` nécessaire pour les collisions physiques
 
-5. **Vitesse du tapis** : Configurable via boutons (min: 0.3, max: 2.0), stockée dans `game_manager.gd` et accessible via `get_parent().conveyor_speed`
+5. **Vitesse du tapis** : Configurable via boutons (min: 0.3, max: 2.0), stockée dans `game_manager.gd` et accessible via `get_parent().conveyor_speed`. Affecte aussi la fréquence de spawn des articles.
 
-6. **Spawn des articles** : Position fixe avec rotation aléatoire initiale sur les 3 axes
+6. **Spawn des articles** : Position fixe avec rotation aléatoire. Articles générés avec couleurs et tailles variées (8 couleurs, tailles aléatoires). Prix calculé selon le volume. Méthode `set_appearance()` dans `grocery_item.gd`.
 
 7. **Projection des objets** : Les objets sont projetés dans la direction de la caméra au lâcher (`THROW_FORCE = 3.0`)
 
 ## Environnement
 
-- **Pièce fermée** : 4 murs (10x10m), plafond à 3m
+- **Pièce fermée** : 4 murs (20x25m), plafond à 3m
 - **Éclairage** : 2 OmniLight3D au plafond
 - **Porte coulissante** : Mur Est, 2 panneaux vitrés
 - **Comptoir** : Avec bac creusé (CSGCombiner3D + soustraction) et pente
+- **Rayons** : 3 allées (Rayon1/2/3) à x=-9, espacées de 5m en z. Panneau central bleu foncé (12m x 2m x 0.15m), étagères des deux côtés à 3 hauteurs (0.4, 0.9, 1.4m)
 
 ## Éléments visuels
 
@@ -72,10 +74,10 @@ scripts/
 - Code-barre : partie blanche sur les articles
 - Halo pulsant : vert semi-transparent sur articles scannés
 - Panier de course : bleu, en bas de la pente
+- Produits étagères : 8 couleurs (rouge, jaune, vert, bleu, orange, violet, rose, marron), ~330 produits avec codes-barres
 
 ## À faire (idées futures)
 
 - Interface de score
-- Différents types d'articles
 - File de clients
 - Système de difficulté progressive
