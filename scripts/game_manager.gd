@@ -50,11 +50,15 @@ var items_scanned: int = 0
 var spawn_timer: float = 0.0
 
 var item_scene: PackedScene
+var customer_scene: PackedScene
+var current_customer: Node3D = null
 
 func _ready() -> void:
 	item_scene = preload("res://scenes/items/grocery_item.tscn")
+	customer_scene = preload("res://scenes/customer.tscn")
 	scanner_area.body_entered.connect(_on_scanner_body_entered)
 	spawn_item()
+	spawn_customer()
 
 func _process(delta: float) -> void:
 	spawn_timer += delta
@@ -202,3 +206,8 @@ func scan_item(item: Node3D) -> void:
 	print("Article scanné: %s - %.2f€" % [item_name, price])
 
 	scan_sound.play()
+
+func spawn_customer() -> void:
+	if customer_scene and current_customer == null:
+		current_customer = customer_scene.instantiate()
+		add_child(current_customer)
