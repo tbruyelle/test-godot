@@ -11,6 +11,7 @@ Jeu 3D Godot 4.5 où le joueur incarne un caissier de supermarché. Il ne peut p
 ```
 scenes/
 ├── main.tscn              # Scène principale (caisse, tapis, scanner, UI, environnement)
+├── shelves.tscn           # Rayons du supermarché avec produits (~660 objets)
 ├── customer.tscn          # Client (Sprite3D billboard)
 └── items/
     └── grocery_item.tscn  # Article scannable (RigidBody3D)
