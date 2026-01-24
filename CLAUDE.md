@@ -11,24 +11,44 @@ Jeu 3D Godot 4.5 où le joueur incarne un caissier de supermarché. Il ne peut p
 ```
 scenes/
 ├── main.tscn              # Scène principale (caisse, tapis, scanner, UI, environnement)
+├── customer.tscn          # Client (Sprite3D billboard)
 └── items/
     └── grocery_item.tscn  # Article scannable (RigidBody3D)
 
 scripts/
-├── game_manager.gd        # Logique du jeu (spawn, grab, scan, vitesse tapis)
+├── game_manager.gd        # Logique du jeu (spawn, grab, scan, vitesse tapis, clients)
 ├── player.gd              # Caméra première personne (rotation souris)
 ├── grocery_item.gd        # Comportement des articles + détection tapis + effet scanné
+├── customer.gd            # Comportement du client (déplacement le long de la caisse)
 └── beep_generator.gd      # Génération procédurale du son de bip
 ```
 
 ## Gameplay
 
-- **Position joueur** : z=-1.6, face au comptoir (z=-0.8)
+- **Position joueur/caissier** : z=-1.6 (au niveau de la caméra), face au comptoir
 - **Tapis roulant** : x=-1.5, articles avancent de gauche à droite (x+)
 - **Scanner** : Sur le comptoir, zone de détection verte, laser rouge
 - **Bac de réception** : Creusé dans le comptoir avec pente descendante vers le panier
 - **Panier de course** : Reçoit les articles scannés en bas de la pente
 - **Rayons supermarché** : 3 allées de 12m avec étagères double-face et produits variés
+
+## Disposition spatiale de la caisse
+
+```
+        x- (gauche)                              x+ (droite)
+            ←────────────────────────────────────────→
+
+                    TAPIS           SCANNER      PANIER
+     z+            ┌───────────────┬───────┬──────────┐
+   (clients)       │   x=-1.5      │  x=0  │  x=1.17  │  ← Comptoir (z=-0.8)
+                   └───────────────┴───────┴──────────┘
+     z-              JOUEUR/CAISSIER (z=-1.6, caméra)
+```
+
+- **Début de la caisse** : x négatif (côté tapis, x ≈ -1.5) - où les articles arrivent
+- **Fin de la caisse** : x positif (côté panier, x ≈ 1.17) - où les articles scannés sortent
+- **Côté clients** : z positif (z ≈ 0.2), de l'autre côté du comptoir
+- **Côté caissier** : z négatif (z = -1.6), où se trouve la caméra/joueur
 
 ## Contrôles
 
